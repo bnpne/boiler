@@ -21,6 +21,7 @@ import { config } from "../Core/Admin"
 class App {
   constructor() {
     this.app = document.querySelector("#app")
+    this.main = document.querySelector("#main")
     this.admin = document.querySelector("#admin")
 
     if (
@@ -81,6 +82,8 @@ class App {
     // STORE.allez = new Allez()
     STORE.lenis = new Lenis({
       lerp: 0.1,
+      wrapper: this.main,
+      content: this.app,
     })
     R.add(() => this.loop())
     R.add((time) => {

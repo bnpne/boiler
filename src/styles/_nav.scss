@@ -1,6 +1,6 @@
 .nav {
   @include bodyType;
-  position: absolute;
+  position: sticky;
   z-index: 2;
   top: 4rem;
   left: 4rem;
@@ -16,5 +16,4 @@
       display: flex;
     }
   }
-
 }

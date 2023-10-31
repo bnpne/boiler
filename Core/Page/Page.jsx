@@ -1,5 +1,3 @@
-import gsap from 'gsap'
-
 export default class Page {
   constructor({ parent, webgl, html, path }) {
     this.webgl = webgl ?? null
@@ -7,9 +5,7 @@ export default class Page {
     this.parent = parent ?? null
     this.active = false
     this.path = path ?? null
-    // this.animaTl = gsap.timeline({
-    //   paused: true,
-    // })
+    this.animas = []
     this.template = null
 
     this.create()
@@ -31,6 +27,7 @@ export default class Page {
     // this.createAnima()
 
     this.created = true
+    this.createAnima()
   }
 
   loadGl() {
@@ -73,25 +70,15 @@ export default class Page {
   intro() { }
 
   in() {
-    // return new Promise((resolve) => {
-    //   this.animaTl.play().then((tl) => {
-    //     console.log(tl)
-    //     resolve()
-    //   })
-    // })
     return Promise.resolve()
   }
 
   out() {
-    // return new Promise((resolve) => {
-    //   this.animaTl.reverse().then((tl) => {
-    //     console.log(tl)
-    //     this.animaTl.seek(0).pause()
-    //     resolve()
-    //   })
-    // })
-    return Promise.resolve()
+    this.animas.forEach((anima) => {
+      anima.out()
+    })
 
+    return Promise.resolve()
   }
 
   updatePath(path) {

@@ -19,14 +19,12 @@ export default class Router {
       if (page) {
         this.addToDom(this.pagesParent, page.template)
         page.active = true
-        page.createAnima()
         resolve()
       } else {
         if (STORE.url) {
           this.tree.currentPage = this.pages[STORE.url]
           this.addToDom(this.pagesParent, this.tree.currentPage.template)
           this.tree.currentPage.active = true
-          this.tree.currentPage.createAnima()
           resolve()
         } else {
           reject()
@@ -77,8 +75,7 @@ export default class Router {
       this.url = STORE.url
       this.tree.newPage = this.pages[this.url]
 
-      await this.tree.currentPage
-        .out()
+      await this.hidePage()
         .then(async () => {
           await this.updateCurrentPage(this.tree.newPage)
         })
@@ -88,9 +85,6 @@ export default class Router {
         .then(async () => {
           await this.inject(this.tree.newPage)
         })
-        .then(async () => {
-          await this.tree.currentPage.in()
-        })
         .catch((err) => {
           console.error(err)
         })
@@ -99,15 +93,15 @@ export default class Router {
     }
   }
 
-  async showPage(page) {
-    if (page) {
-      await page.in()
+  async showPage() {
+    if (this.tree.currentPage) {
+      await this.tree.currentPage.in()
     }
   }
 
-  async hidePage(page) {
-    if (page) {
-      await page.out()
+  async hidePage() {
+    if (this.tree.currentPage) {
+      await this.tree.currentPage.out()
     }
   }
 

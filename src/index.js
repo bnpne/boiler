@@ -40,7 +40,7 @@ class App {
       this.admin.remove()
       const r = document.querySelector("#r")
       const preloadElement = document.querySelector("[data-preloader]")
-      this.pagesParent = document.querySelector("#main")
+      this.pagesParent = document.querySelector("#app")
       STORE.url = window.location.pathname
 
       STORE.setUrl = function (data) {

@@ -12,6 +12,8 @@ This is an opinionated boilerplate for creative web development. Use it at your 
 - JSX
 - Virtual Scrolling
 - Custom Animation library (Piezo)
+- Lenis Smooth Scroll
+- Gsap
 - SASS
 - Sanity CMS connectivity
 
@@ -53,3 +55,4 @@ bun run build
 
 Create your own project on Sanity and add project ID to ```./Core/Admin/index.js```
 
+Create your own project on Sanity and add project ID to `./Core/Admin/index.js`

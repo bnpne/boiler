@@ -1,5 +1,5 @@
 :root {
-  font-family: "Helvetica Neue", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   color: black;
   background-color: white;
@@ -92,14 +92,12 @@ time,
 mark,
 audio,
 video {
-
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
   vertical-align: baseline;
 
-  will-change: transform;
   box-sizing: border-box;
 }
 
@@ -130,7 +128,6 @@ body {
 }
 
 #main {
-
   position: fixed;
   display: block;
   width: 100%;
@@ -160,7 +157,6 @@ body {
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
-  will-change: transform;
 }
 
 div,
@@ -188,7 +184,7 @@ a {
     &::before {
       transform: translate3d(-102%, 0, 0);
       opacity: 0;
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
@@ -202,7 +198,7 @@ a {
       transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
 
       opacity: 1;
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
@@ -239,8 +235,6 @@ a {
   align-items: center;
 }
 
-
-
 .loader {
   border-bottom: solid 1px $dark;
 }
@@ -264,3 +258,4 @@ a {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+

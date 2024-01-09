@@ -1,7 +1,7 @@
-import STORE from "../Store"
+import STORE from '../Store'
 
 export default class Router {
-  constructor({ pages, pagesParent }) {
+  constructor({pages, pagesParent}) {
     this.pages = pages
     this.pagesParent = pagesParent
     this.url = window.location.pathname
@@ -19,12 +19,14 @@ export default class Router {
       if (page) {
         this.addToDom(this.pagesParent, page.template)
         page.active = true
+        page.onInject()
         resolve()
       } else {
         if (STORE.url) {
           this.tree.currentPage = this.pages[STORE.url]
           this.addToDom(this.pagesParent, this.tree.currentPage.template)
           this.tree.currentPage.active = true
+          this.tree.currentPage.onInject()
           resolve()
         } else {
           reject()
@@ -38,6 +40,7 @@ export default class Router {
       if (page) {
         if (page.template && this.pagesParent) {
           page.template.remove()
+          page.injected = false
         }
         page.active = false
         resolve()
@@ -75,7 +78,7 @@ export default class Router {
       this.url = STORE.url
       this.tree.newPage = this.pages[this.url]
 
-      await this.hidePage()
+      await this.hidePage(this.tree.currentPage)
         .then(async () => {
           await this.updateCurrentPage(this.tree.newPage)
         })
@@ -83,9 +86,12 @@ export default class Router {
           await this.remove(this.tree.oldPage)
         })
         .then(async () => {
-          await this.inject(this.tree.newPage)
+          await this.inject(this.tree.currentPage)
         })
-        .catch((err) => {
+        .then(async () => {
+          await this.showPage(this.tree.currentPage)
+        })
+        .catch(err => {
           console.error(err)
         })
     } else {
@@ -93,15 +99,46 @@ export default class Router {
     }
   }
 
-  async showPage() {
-    if (this.tree.currentPage) {
-      await this.tree.currentPage.in()
+  // Special for Case
+  async routeCase() {
+    if (this.url !== STORE.url && this.pages[STORE.url]) {
+      this.url = STORE.url
+      this.tree.newPage = this.pages[this.url]
+      // STORE.lenis.stop()
+
+      await this.updateCurrentPage(this.tree.newPage)
+        .then(async () => {
+          await this.remove(this.tree.oldPage)
+        })
+        .then(async () => {
+          await this.inject(this.tree.currentPage)
+        })
+        .then(async () => {
+          await this.showCase(this.tree.currentPage)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    } else {
+      return
     }
   }
 
-  async hidePage() {
-    if (this.tree.currentPage) {
-      await this.tree.currentPage.out()
+  async showPage(page) {
+    if (page) {
+      await page.in()
+    }
+  }
+
+  async showCase(page) {
+    if (page) {
+      await page.caseIn()
+    }
+  }
+
+  async hidePage(page) {
+    if (page) {
+      await page.out()
     }
   }
 

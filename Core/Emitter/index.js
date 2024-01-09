@@ -32,7 +32,7 @@ export default class Emitter {
   emit(name) {
     let data = [].slice.call(arguments, 1)
     let evts = ((this.e || (this.e = {}))[name] || []).slice()
-    evts.forEach((e) => e.fn.apply(e.ctx, data))
+    evts.forEach(e => e.fn.apply(e.ctx, data))
     return this
   }
 }

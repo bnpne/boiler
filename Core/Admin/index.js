@@ -1,23 +1,23 @@
-import { defineConfig } from "sanity"
-import { deskTool } from "sanity/desk"
+import {defineConfig} from 'sanity'
+import {deskTool} from 'sanity/desk'
 
 export const config = defineConfig({
   plugins: [deskTool()],
-  name: "studio",
-  projectId: "i51yibay",
-  dataset: "production",
-  basePath: "/admin",
+  name: 'studio',
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  dataset: 'production',
+  basePath: '/admin',
   schema: {
     types: [
       {
-        type: "document",
-        name: "post",
-        title: "Post",
+        type: 'document',
+        name: 'post',
+        title: 'Post',
         fields: [
           {
-            type: "string",
-            name: "title",
-            title: "Title",
+            type: 'string',
+            name: 'title',
+            title: 'Title',
           },
         ],
       },

@@ -1,39 +1,52 @@
-import STORE from "../Store"
-import Emitter from "../Emitter"
-import * as THREE from "three"
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js"
-
-import piezo from "../Utils"
+import STORE from '../Store'
+import Emitter from '../Emitter'
+import gsap from 'gsap'
+import * as THREE from 'three'
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 
 export default class Preloader {
-  constructor({ el, pagesParent }) {
+  constructor({el, pagesParent}) {
     this.preloader = el
     this.pageParent = pagesParent
 
     this.em = new Emitter()
     this.pageLoaded = false
 
-    STORE.preloadTimeline = piezo.timeline({
-      easing: "easeOutExpo",
-      duration: 700,
-    })
-
-    STORE.preloadTimeline.add({
-      targets: this.preloader,
-      opacity: [1, 0],
-      delay: 1000,
-    })
-    STORE.preloadTimeline.pause()
+    STORE.preloadTimeline = gsap
+      .timeline({
+        easing: 'easeOutCubic',
+        duration: 0.7,
+        paused: true,
+        onComplete: () => {
+          console.log(this.destroy())
+          this.destroy()
+        },
+      })
+      .fromTo(
+        this.preloader,
+        {opacity: 1},
+        {
+          opacity: 0,
+          delay: 1,
+        },
+      )
 
     this.load()
   }
 
   async load() {
-    await STORE.router.inject().then(() => {
-      this.loaded()
+    await this.buildPages().then(async () => {
+      await STORE.router.inject().then(() => {
+        this.loaded()
+      })
     })
   }
 
+  buildPages() {
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
+  }
   // loadPage(pageList) {
   //   return new Promise((resolve) => {
   //     for (const page of pageList) {
@@ -93,7 +106,7 @@ export default class Preloader {
   // }
 
   loaded() {
-    this.em.emit("completed")
+    this.em.emit('completed')
   }
 
   destroy() {
